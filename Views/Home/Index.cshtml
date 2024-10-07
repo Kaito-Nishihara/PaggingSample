@@ -1,0 +1,56 @@
+﻿@using X.PagedList.Mvc.Core
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model X.PagedList.IPagedList<PaggingSample.Models.Product>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.unobtrusive-ajax.min.js"></script>
+<div id="product-list">
+
+    <!-- ここにテーブルがロードされる -->
+    @await Html.PartialAsync("_ProductList", Model)
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).on("click", "#pagination-container a", function (event) {
+        event.preventDefault();
+
+        var url = $(this).attr("href");
+
+        // テーブルを非表示（高さを維持）し、ローディングスピナーを表示
+        $("#product-list table").addClass("hidden-table");  // テーブルを非表示に（高さは維持）
+        $("#loading-spinner").show();     // ローディングスピナーを表示
+
+        // URLにpageパラメータを設定
+        history.pushState(null, '', url);
+
+        // 非同期でリストを更新
+        $.get(url, function (data) {
+            $("#product-list").html(data);  // 新しいテーブルデータを挿入
+        }).always(function () {
+            // リクエスト完了時にローディングスピナーを非表示にし、テーブルを再表示
+            $("#loading-spinner").hide();   // ローディングスピナーを非表示
+            $("#product-list table").removeClass("hidden-table");  // テーブルを再表示
+        });
+    });
+
+    // 戻る・進むボタンが押されたときの処理
+    $(window).on("popstate", function () {
+        var url = location.href;
+
+        // テーブルを非表示（高さを維持）し、ローディングスピナーを表示
+        $("#product-list table").addClass("hidden-table");  // テーブルを非表示に（高さは維持）
+        $("#loading-spinner").show();     // ローディングスピナーを表示
+
+        // 非同期でリストを更新
+        $.get(url, function (data) {
+            $("#product-list").html(data);  // 新しいテーブルデータを挿入
+        }).always(function () {
+            // リクエスト完了時にローディングスピナーを非表示にし、テーブルを再表示
+            $("#loading-spinner").hide();   // ローディングスピナーを非表示
+            $("#product-list table").removeClass("hidden-table");  // テーブルを再表示
+        });
+    });
+</script>

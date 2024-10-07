@@ -1,0 +1,43 @@
+﻿
+@model X.PagedList.IPagedList<PaggingSample.Models.Product>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+<div id="loading-spinner" style="display:none; text-align:center;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only"></span>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+{
+    LinkToPreviousPageFormat = "Previous",
+    LinkToNextPageFormat = "Next",
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToIndividualPages = true,
+    DisplayPageCountAndCurrentLocation = false,
+    UlElementClasses = new[] { "pagination" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" }
+})
+</div>

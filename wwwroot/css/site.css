@@ -1,0 +1,39 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+#product-list {
+    position: relative; /* ローディングスピナーを中央配置するために relative を使用 */
+}
+
+#loading-spinner {
+    position: absolute;
+    top: 50%; /* 親要素の高さの50%に配置 */
+    left: 50%; /* 親要素の幅の50%に配置 */
+    transform: translate(-50%, -50%); /* スピナーを中央に揃える */
+    display: none; /* 初期状態で非表示 */
+    text-align: center;
+}
+
+.hidden-table {
+    visibility: hidden; /* テーブルは非表示だが、スペースは維持される */
+}
