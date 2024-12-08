@@ -1,13 +1,15 @@
-﻿
-@model X.PagedList.IPagedList<PaggingSample.Models.Product>
+﻿@model ProductViewModel
 @using X.PagedList
 @using X.PagedList.Mvc.Core
+@using PaggingSample.Extensions
 <div id="loading-spinner" style="display:none; text-align:center;">
     <div class="spinner-border text-primary" role="status">
         <span class="sr-only"></span>
     </div>
 </div>
-
+<form method="get" action="@Url.Action("Index")" class="mb-3">
+@Html.PagingDropDownFor(mbox => mbox.PagingDropDown)
+    <button type="submit" class="btn btn-primary">検索</button>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -17,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.PagedList)
         {
             <tr>
                 <td>@item.Id</td>
@@ -27,8 +29,9 @@
         }
     </tbody>
 </table>
+</form>
 <div id="pagination-container">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+    @Html.PagedListPager(Model.PagedList, page => Url.Action("Index", new { page,pagesize = Model.PagingDropDown.SelectedPageSize }), new PagedListRenderOptions
 {
     LinkToPreviousPageFormat = "Previous",
     LinkToNextPageFormat = "Next",

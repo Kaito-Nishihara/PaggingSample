@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
+@model PaggingSample.Models.PrivateModel
 <h1>@ViewData["Title"]</h1>
-
+@Html.EditorFor(X => X.DecimalValue)
 <p>Use this page to detail your site's privacy policy.</p>
