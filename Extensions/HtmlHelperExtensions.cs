@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using PaggingSample.Models;
-using System.Web.Mvc;
+
 
 namespace PaggingSample.Extensions
 {
@@ -27,10 +27,19 @@ namespace PaggingSample.Extensions
 
             // ドロップダウンを生成
             return htmlHelper.DropDownList(
-                $"{ExpressionHelper.GetExpressionText(expression)}.SelectedPageSize",
+                $"{GetExpressionText(expression)}.SelectedPageSize",
                 pagingDropDown.PageSizeOptions,
                 "",
                 htmlAttributes);
+        }
+
+        private static string GetExpressionText<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression)
+        {
+            if (expression.Body is MemberExpression memberExpression)
+            {
+                return memberExpression.Member.Name;
+            }
+            throw new ArgumentException("Invalid expression");
         }
     }
 }
